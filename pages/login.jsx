@@ -10,16 +10,24 @@ const Login = () => {
   const [loader, setLoader] = useState(false);
 
   const HandleForm = async (event) => {
-    try {
-      event.preventDefault();
-      let email = event.currentTarget.elements.email.value;
-      let password = event.currentTarget.elements.password.value;
-      signIn("login", { email, password });
-    } catch (e) {
-      alert(e.message);
-    } finally {
-      setLoader(false);
-    }
+    event.preventDefault();
+    let email = event.currentTarget.elements.email.value;
+    let password = event.currentTarget.elements.password.value;
+
+    signIn("login", { redirect: false, email, password })
+      .then((res) => {
+        const status = JSON.parse(res.status);
+        // console.log("res :", status);
+        if (status !== 200) {
+          throw new Error("Invalid Username  and Password combination");
+        }
+      })
+      .catch((error) => {
+        alert(error);
+      })
+      .finally(() => {
+        setLoader(false);
+      });
   };
 
   return (

@@ -27,8 +27,8 @@ export const authOptions = {
             credentials.password
           ).catch((error) => {
             const errorMessage = error.message;
-            console.log("errorMessage", errorMessage);
-            return errorMessage;
+            // console.log("errorMessage", errorMessage);
+            throw new Error(JSON.stringify({ errorMessage }));
           });
         }
       },
@@ -56,7 +56,6 @@ export const authOptions = {
     },
   },
   callbacks: {
-    // secret: process.env.JWT_SECRET,
     async jwt({ token, user, account }) {
       try {
         if (token && user) {
