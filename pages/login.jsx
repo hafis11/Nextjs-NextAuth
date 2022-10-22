@@ -14,12 +14,15 @@ const Login = () => {
     let email = event.currentTarget.elements.email.value;
     let password = event.currentTarget.elements.password.value;
 
-    signIn("login", { redirect: false, email, password })
+    signIn("login", { email, password })
       .then((res) => {
-        const status = JSON.parse(res.status);
-        // console.log("res :", status);
-        if (status !== 200) {
-          throw new Error("Invalid Username  and Password combination");
+        // console.log("res :", res);
+        if (res) {
+          const status = JSON.parse(res?.status);
+          if (status !== 200) {
+            throw new Error("Invalid Username  and Password combination");
+          }
+          return true;
         }
       })
       .catch((error) => {

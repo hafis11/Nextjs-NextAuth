@@ -27,8 +27,9 @@ export const authOptions = {
             credentials.password
           ).catch((error) => {
             const errorMessage = error.message;
-            // console.log("errorMessage", errorMessage);
-            throw new Error(JSON.stringify({ errorMessage }));
+            console.log("errorMessage", errorMessage);
+            // throw new Error(JSON.stringify({ errorMessage }));
+            return null;
           });
         }
       },
@@ -56,6 +57,13 @@ export const authOptions = {
     },
   },
   callbacks: {
+    async signIn({ user, account, profile, email, credentials }) {
+      if (user) {
+        return true;
+      } else {
+        return false;
+      }
+    },
     async jwt({ token, user, account }) {
       try {
         if (token && user) {
@@ -84,9 +92,6 @@ export const authOptions = {
       }
       return session;
     },
-    // async redirect({ url, baseUrl }) {
-    //   return baseUrl;
-    // },
   },
 };
 
